@@ -30,7 +30,7 @@
             height: 100vh;
             object-fit:fill;
             transform: rotate(0deg) scaleX(-1);
-            
+            filter: grayscale(0%) contrast(500%) blur(50px) brightness(200%) invert(5%) saturate(100%) hue-rotate(0);
             z-index: 1;
         }
         
@@ -71,6 +71,15 @@
             color: #ccc;
         }
 
+        #bouncing-image {
+    position: absolute;
+    width: 150px;   /* adjust size */
+    height: auto;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+}
+
         @media only screen and (max-width: 600px) {
             #typing-text {
             /* Change font by modifying this value */
@@ -89,9 +98,11 @@
             <div id="typing-text"></div>
         </div>
 
+        <img id="bouncing-image" src="./catarax.jpeg" alt="Bouncing Image">
+
     <script>
         // Change this text to whatever you want to display
-        const displayText = "I can no longer see";
+        const displayText = "cataracts simulator";
         
         // Change typing speed (lower = faster)
         const typingSpeed = 30;
@@ -131,6 +142,42 @@
             initCamera();
             typeText(displayText, typingSpeed);
         });
+
+        const img = document.getElementById("bouncing-image");
+
+let x = 100;   // starting X
+let y = 100;   // starting Y
+let dx = 3;    // horizontal speed
+let dy = 3;    // vertical speed
+
+function bounce() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const imgWidth = img.offsetWidth;
+    const imgHeight = img.offsetHeight;
+
+    x += dx;
+    y += dy;
+
+    // Bounce off left/right
+    if (x + imgWidth >= screenWidth || x <= 0) {
+        dx = -dx;
+    }
+
+    // Bounce off top/bottom
+    if (y + imgHeight >= screenHeight || y <= 0) {
+        dy = -dy;
+    }
+
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+
+    requestAnimationFrame(bounce);
+}
+
+bounce();
+
+
     </script>
 </body>
 </html>
